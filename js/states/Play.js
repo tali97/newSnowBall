@@ -171,7 +171,7 @@ Play.prototype = {
     //snowball.anchor.setTo(1,1);
 
     //snowBall0 = game.add.sprite(600, 3500, 'snowBallAnimation0');//x, y, key, displaying the first frame by default
-    snowBall0 = game.add.sprite(640, 25000, 'snowBallAtlasHuge','Snow_ball_0_01');
+    snowBall0 = game.add.sprite(1260, 38000, 'snowBallAtlasHuge','Snow_ball_0_01');
     game.physics.enable(snowBall0);
     snowBall0.body.collideWorldBounds = true;
     snowBall0.anchor.setTo(0.5,0.5);
@@ -194,8 +194,8 @@ Play.prototype = {
     soundMainTheme.play();
 
 
-
-    game.camera.follow(snowBall0);
+    
+    //game.camera.follow(snowBall0,Phaser.Camera.STYLE_PLATFORMER,0.5,0.5,0,300);
     game.camera.roundPixels = true;
 
 
@@ -255,6 +255,7 @@ Play.prototype = {
 
 
   update:function(){
+  	game.camera.focusOnXY(snowBall0.x,snowBall0.y-200);
     game.scale.pageAlignHorizontally = true;
     game.scale.pageAlignVertically = true;
     game.scale.refresh();
@@ -268,8 +269,8 @@ Play.prototype = {
     skiers.forEachAlive(function(n){
       //make player could collect skiers
 	  var distance = this.game.math.distance(n.x,n.y,snowBall0.x,snowBall0.y);
-	  if(distance <=600){
-	  	n.body.velocity.y = -200;
+	  if(distance <800){
+	  	n.body.velocity.y = -400;
 	  }
       if(game.physics.arcade.collide(snowBall0,n)){
       	n.kill();
@@ -306,7 +307,7 @@ Play.prototype = {
     if(numberOfCollisionsWithSkiers == 0 && ifSpeed == 0 && !booleanHitRock) {
       snowBall0.animations.play('snowBallRolling');
       snowBall0.body.setSize(50,50,5,10);
-      snowBall0.body.velocity.y = -350;
+      snowBall0.body.velocity.y = -400;
       score +=1;
       scoreText.text='Score:'+score;
 
@@ -314,7 +315,7 @@ Play.prototype = {
     if(numberOfCollisionsWithSkiers == 0 && ifSpeed == 0 && booleanHitRock) {
       snowBall0.animations.play('snowBallRolling');
       snowBall0.body.setSize(64,64,0,0);
-      snowBall0.body.velocity.y = -350;
+      snowBall0.body.velocity.y = -400;
       //score +=1;
       scoreText.text='Score:'+score;
 
@@ -323,7 +324,7 @@ Play.prototype = {
     else if(numberOfCollisionsWithSkiers == 1 &&ifSpeed ==0){
       snowBall0.animations.play('collide1');//skier collision animation
       snowBall0.body.setSize(80,80,0,10);
-      snowBall0.body.velocity.y = -430;
+      snowBall0.body.velocity.y = -500;
       score +=1;
       scoreText.text='Score:'+score;
 
@@ -338,14 +339,14 @@ Play.prototype = {
     else if(numberOfCollisionsWithSkiers ==3 &&ifSpeed ==0){
       snowBall0.animations.play('collide3');
       snowBall0.body.setSize(180,180,30,50);
-      snowBall0.body.velocity.y = -610;
+      snowBall0.body.velocity.y = -680;
       score +=1;
       scoreText.text='Score:'+score;
     }
     else if(numberOfCollisionsWithSkiers ==4 &&ifSpeed ==0){
       snowBall0.animations.play('collide4', 10, true);
       snowBall0.body.setSize(256,256,50,70);
-      snowBall0.body.velocity.y = -740;
+      snowBall0.body.velocity.y = -780;
       score +=1;
       scoreText.text='Score:'+score;
     }
@@ -476,13 +477,13 @@ Play.prototype = {
     }
 
     if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && !booleanHitRock){
-      snowBall0.body.velocity.y = -900;
+      snowBall0.body.velocity.y = -950;
       score +=4;
       scoreText.text='Score:'+score;
     }
 
     if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR) && booleanHitRock){
-      snowBall0.body.velocity.y = -900;
+      snowBall0.body.velocity.y = -950;
       scoreText.text='Score:'+score;
     }
 
@@ -702,7 +703,7 @@ function winner(snowBall0,floor){
 
 function iceSpeed(snowball,lake){
   ifSpeed = 1;
-  //snowball.body.velocity.y = -600;
+  snowball.body.velocity.y = -1000;
   //ice speed up timer
   iceTimer = game.time.create();
   iceEvent= iceTimer.add(Phaser.Timer.SECOND*1,speedRetrieve,this);
